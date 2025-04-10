@@ -23,13 +23,16 @@ def handle_message(message: str) -> str:
     if "hello" in message:
         return "Hello, welcome to NEAR AI!"
     elif "joke" in message:
-        # TODO: Implement the joke command.
-        # Steps:
-        #   1. Make a GET request to the joke API.
-        #   2. Verify the response status.
-        #   3. Parse the JSON data to extract "setup" and "punchline".
-        #   4. Return the joke as a formatted string.
-        pass
+        
+        response = requests.get("https://official-joke-api.appspot.com/random_joke")
+        if response.status_code == 200:
+            joke_data = response.json()
+            setup = joke_data['setup']
+            punchline = joke_data['punchline']
+            return f"{setup} ... {punchline}"
+        else:
+            return "Sorry, I couldn't fetch a joke at the moment."
+        
     else:
         return "I'm sorry, I didn't understand your message."
 
